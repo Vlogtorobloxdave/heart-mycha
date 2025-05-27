@@ -134,7 +134,30 @@
     align-items: center;
     justify-content: center;
   }
+      body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px; /* para hindi sobra sa desktop */
+  margin: auto;
+  padding: 10px;
+      }
+@media only screen and (max-width: 600px) {
+  .container {
+    padding: 5px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+
+      
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div class="heart"></div>
