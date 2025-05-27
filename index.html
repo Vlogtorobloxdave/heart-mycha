@@ -154,6 +154,44 @@
   h1 {
     font-size: 24px;
   }
+      .box {
+      border: 6px solid transparent;
+      padding: 30px;
+      border-radius: 20px;
+      background: linear-gradient(#111, #111) padding-box,
+                  repeating-linear-gradient(
+                    45deg,
+                    #ff69b4,
+                    #ff69b4 10px,
+                    #fff 10px,
+                    #fff 20px
+                  ) border-box;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .typewriter {
+      font-size: 2rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .cursor {
+      display: inline-block;
+      background-color: #fff;
+      width: 2px;
+      margin-left: 5px;
+      animation: blink 0.7s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+        }
 
       
     </style>
@@ -167,22 +205,37 @@
     <h1>Mycha Redisa</h1>
       <div class="typewriter" id="text"></div>
 
+    <div class="box">
+    <div class="typewriter" id="text"></div><div class="cursor"></div>
+  </div>
+
   <script>
-    const message = "hello mycha ginawan kita na website 🥰🥰♥️😍🥰😘😘😘😘😘😘!";
+    const message = "hi mycha ginawa kita ma website heheh🥰🥰🥰🥰🥰😍😍😍😍😍♥️♥️♥️♥️😘😘😘😘😘😘!";
     const target = document.getElementById("text");
     let index = 0;
+    let isDeleting = false;
 
     function type() {
-      if (index < message.length) {
-        target.textContent += message.charAt(index);
+      if (!isDeleting) {
+        target.textContent = message.substring(0, index + 1);
         index++;
-        setTimeout(type, 100);
+        if (index === message.length) {
+          isDeleting = true;
+          setTimeout(type, 1500); // wait before deleting
+          return;
+        }
+      } else {
+        target.textContent = message.substring(0, index - 1);
+        index--;
+        if (index === 0) {
+          isDeleting = false;
+        }
       }
+      setTimeout(type, isDeleting ? 50 : 100);
     }
 
     type();
-          </script>
-
+  </script>
     <!-- Facebook Buttons -->
     	<div class="heart-background">
     <a href="https://www.facebook.com/mhycaridesa/" class="fb-button" target="_blank">Mycha ridesa 1</a>
