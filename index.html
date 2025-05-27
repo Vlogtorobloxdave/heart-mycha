@@ -165,7 +165,23 @@
     <h2>grabe na si Mycha</h2></h2>
     <h3>maganda ka no diba</h3>
     <h1>Mycha Redisa</h1>
-    <h4>gawa kita password sa website ko bibigyan kita password</h4>
+      <div class="typewriter" id="text"></div>
+
+  <script>
+    const message = "hello mycha ginawan kita na website 🥰🥰♥️😍🥰😘😘😘😘😘😘!";
+    const target = document.getElementById("text");
+    let index = 0;
+
+    function type() {
+      if (index < message.length) {
+        target.textContent += message.charAt(index);
+        index++;
+        setTimeout(type, 100);
+      }
+    }
+
+    type();
+          </script>
 
     <!-- Facebook Buttons -->
     	<div class="heart-background">
