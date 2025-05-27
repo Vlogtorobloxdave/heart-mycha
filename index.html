@@ -292,29 +292,34 @@
   </div>
 
   <script>
-      const chatInput = document.getElementById('chat-input');
+  function sendMessageToServer(message, sender) {
+    fetch('http://localhost:3000/send-sms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message, sender })
+    })
+    .then(response => response.text())
+    .then(data => {
+      console.log(data);
+      alert('Message sent to your phone!');
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      alert('Failed to send message');
+    });
+  }
+
+  // Example when sending message from chat box
   const chatSend = document.getElementById('chat-send');
+  const chatInput = document.getElementById('chat-input');
 
   chatSend.addEventListener('click', () => {
-    const msg = chatInput.value.trim();
-    if (msg) {
-      // Buksan ang email client ng user para mag-send ng message sayo (optional)
-      window.location.href = `mailto:your-email@example.com?subject=New Comment&body=${encodeURIComponent(msg)}`;
-      
-      // Show message sa chat box
-      const chatMessages = document.getElementById('chat-messages');
-      const msgDiv = document.createElement('div');
-      msgDiv.textContent = msg;
-      chatMessages.appendChild(msgDiv);
-      
+    const message = chatInput.value.trim();
+    if (message) {
+      sendMessageToServer(message, 'Website Visitor');
       chatInput.value = '';
-      chatInput.focus();
-    }
-  });
-
-  chatInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      chatSend.click();
     }
   });
   </script>
