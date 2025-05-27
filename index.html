@@ -209,7 +209,105 @@
     <a href="https://www.facebook.com/mhycaridesa/" class="fb-button" target="_blank">Mycha Ridesa</a>
     <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" class="fb-button" target="_blank">Charles Kevin B Dajao</a>
   </div>
+  <style>
+    body { font-family: Arial, sans-serif; background: pink; }
+    #chat {
+      width: 100%;
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    #messages {
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+    #messages div {
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #ffe0e0;
+    }
+    #messageInput {
+      width: calc(100% - 90px);
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 1em;
+    }
+    #sendBtn {
+      width: 70px;
+      padding: 8px;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
 
+  <div id="chat">
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Type your message..." />
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    // Your Firebase config here (palitan ng sa Firebase mo)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const messagesDiv = document.getElementById('messages');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Listen for new messages
+    db.ref('chat').on('child_added', (snapshot) => {
+      const message = snapshot.val();
+      const msgDiv = document.createElement('div');
+      msgDiv.textContent = message;
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // scroll down
+    });
+
+    // Send message
+    sendBtn.addEventListener('click', () => {
+      const msg = messageInput.value.trim();
+      if (msg) {
+        db.ref('chat').push(msg);
+        messageInput.value = '';
+      }
+    });
+
+    // Allow enter key to send
+    messageInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
+  </script>
   <footer>© 2025</footer>
 
   <div class="fb-links">
