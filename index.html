@@ -1,112 +1,334 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I Love You Too</title>
   <style>
-    /* Existing styles mo dito... */
     body {
       background-color: pink;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,0,0,0.15) 20%, transparent 21%),
+        radial-gradient(circle at 75% 75%, rgba(255,0,0,0.15) 20%, transparent 21%);
+      background-size: 100px 100px;
+      background-repeat: repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       font-family: Arial, sans-serif;
-      /* ...other styles... */
+      margin: 0;
+      position: relative;
+      padding-bottom: 280px; /* dagdag space para sa chat */
     }
-    /* Chat container style */
-    #chat-container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: white;
-      padding: 10px;
+
+    h1 {
+      background-color: gray;
+      color: white;
+      padding: 10px 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
+      text-align: center;
+      margin-bottom: 30px;
     }
-    #messages {
-      height: 300px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
-      background: #f9f9f9;
+
+    h2, h3 {
+      color: gray;
+      text-align: center;
+      margin: 5px 0;
     }
-    #messageInput {
-      width: 80%;
-      padding: 10px;
-      font-size: 1em;
+
+    h2 {
+      font-size: 2.5em;
     }
-    #sendBtn {
-      width: 18%;
-      padding: 10px;
+
+    h3 {
+      font-size: 2em;
+    }
+
+    .heart {
+      width: 50px;
+      height: 45px;
+      background: red;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: pulse 1.2s infinite;
+      margin-bottom: 20px;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      background: red;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -25px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 25px;
+      top: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.2); }
+    }
+
+    .box {
+      border: 6px solid transparent;
+      padding: 30px;
+      border-radius: 20px;
+      background: linear-gradient(#111, #111) padding-box,
+                  repeating-linear-gradient(45deg, #ff69b4, #ff69b4 10px, #fff 10px, #fff 20px) border-box;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .typewriter {
+      font-size: 2rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .cursor {
+      display: inline-block;
+      background-color: green;
+      width: 2px;
+      margin-left: 5px;
+      animation: blink 0.7s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .fb-button {
+      background-color: #1877f2;
+      color: white;
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
       font-size: 1em;
       cursor: pointer;
-      background-color: #ff69b4;
+      text-decoration: none;
+    }
+
+    .heart-background {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 70px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: gray;
+    }
+
+    .fb-links {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1em;
+      color: #1877f2;
+      font-weight: bold;
+    }
+
+    .fb-links a {
+      color: #1877f2;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .fb-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* CHAT BOX */
+    #chat-container {
+      position: fixed;
+      bottom: 110px;
+      width: 90%;
+      max-width: 600px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      color: #333;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 250px;
+    }
+
+    #chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      border: 2px solid #ff69b4;
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff0f6;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    #chat-messages div {
+      margin-bottom: 6px;
+      padding: 6px 10px;
+      background: #ffb6c1;
+      border-radius: 10px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    #chat-input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    #chat-input {
+      flex-grow: 1;
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 2px solid #ff69b4;
+      outline: none;
+    }
+
+    #chat-send {
+      background: #ff69b4;
       border: none;
-      border-radius: 5px;
       color: white;
+      padding: 8px 20px;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #chat-send:hover {
+      background: #e55a99;
     }
   </style>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+  <div class="heart"></div>
 
-  <!-- Your existing content here -->
+  <h2>Grabe na si Mycha</h2>
+  <h3>Maganda ka no diba</h3>
   <h1>Mycha Redisa</h1>
-  <!-- ... more content ... -->
 
-  <!-- Chat Box -->
-  <div id="chat-container">
-    <div id="messages"></div>
-    <input type="text" id="messageInput" placeholder="Type your message" />
-    <button id="sendBtn">Send</button>
+  <div class="box">
+    <div class="typewriter" id="text"></div>
+    <div class="cursor"></div>
   </div>
 
   <script>
-    // Firebase config - palitan ito sa sariling Firebase project mo
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
-    };
+    const message = "hi mycha ginawa kita ma website heheh🥰🥰🥰🥰🥰😍😍😍😍😍♥️♥️♥️♥️😘😘😘😘😘😘!";
+    const target = document.getElementById("text");
+    let index = 0;
+    let isDeleting = false;
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    function type() {
+      if (!isDeleting) {
+        target.textContent = message.substring(0, index + 1);
+        index++;
+        if (index === message.length) {
+          isDeleting = true;
+          setTimeout(type, 1500);
+          return;
+        }
+      } else {
+        target.textContent = message.substring(0, index - 1);
+        index--;
+        if (index === 0) {
+          isDeleting = false;
+        }
+      }
+      setTimeout(type, isDeleting ? 50 : 100);
+    }
 
-    const messagesDiv = document.getElementById("messages");
-    const messageInput = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
-
-    // Send message
-    sendBtn.onclick = () => {
-      const msg = messageInput.value.trim();
-      if (msg === "") return;
-
-      db.collection("messages").add({
-        message: msg,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      messageInput.value = "";
-    };
-
-    // Real-time listener para sa messages
-    db.collection("messages")
-      .orderBy("timestamp")
-      .onSnapshot(snapshot => {
-        messagesDiv.innerHTML = "";
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const msgElem = document.createElement("div");
-          msgElem.textContent = data.message;
-          msgElem.style.padding = "4px 0";
-          messagesDiv.appendChild(msgElem);
-        });
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      });
+    type();
   </script>
 
+  <div class="heart-background">
+    <a href="https://www.facebook.com/mhycaridesa/" class="fb-button" target="_blank">Mycha Ridesa</a>
+    <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" class="fb-button" target="_blank">Charles Kevin B Dajao</a>
+  </div>
+
+  <!-- CHAT BOX -->
+  <div id="chat-container">
+    <div id="chat-messages"></div>
+    <div id="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Type your message..." />
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+
+  <footer>© 2025</footer>
+
+  <div class="fb-links">
+    <a href="https://www.facebook.com/mhycaridesa/" target="_blank">facebook.com/mhycaridesa</a> | 
+    <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" target="_blank">facebook.com/charles.kevin.b.dajao.2025</a>
+  </div>
+
+  <script>
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const chatMessages = document.getElementById('chat-messages');
+
+    // Load messages from localStorage
+    let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+
+    function displayMessages() {
+      chatMessages.innerHTML = '';
+      messages.forEach(msg => {
+        const msgDiv = document.createElement('div');
+        msgDiv.textContent = msg;
+        chatMessages.appendChild(msgDiv);
+      });
+      chatMessages.scrollTop = chatMessages.scrollHeight; // auto scroll sa latest
+    }
+
+    displayMessages();
+
+    chatSend.addEventListener('click', () => {
+      const msg = chatInput.value.trim();
+      if (msg) {
+        messages.push(msg);
+        localStorage.setItem('chatMessages', JSON.stringify(messages));
+        displayMessages();
+        chatInput.value = '';
+        chatInput.focus();
+      }
+    });
+
+    // Optional: send message on Enter key press
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        chatSend.click();
+      }
+    });
+  </script>
 </body>
 </html>
