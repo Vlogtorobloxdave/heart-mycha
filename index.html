@@ -292,42 +292,25 @@
   </div>
 
   <script>
-    const chatInput = document.getElementById('chat-input');
-    const chatSend = document.getElementById('chat-send');
-    const chatMessages = document.getElementById('chat-messages');
+      const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
 
-    // Load messages from localStorage
-    let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+  const phoneNumber = "09308545388";
 
-    function displayMessages() {
-      chatMessages.innerHTML = '';
-      messages.forEach(msg => {
-        const msgDiv = document.createElement('div');
-        msgDiv.textContent = msg;
-        chatMessages.appendChild(msgDiv);
-      });
-      chatMessages.scrollTop = chatMessages.scrollHeight; // auto scroll sa latest
+  chatSend.addEventListener('click', () => {
+    const msg = chatInput.value.trim();
+    if (msg) {
+      window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(msg)}`;
+      chatInput.value = '';
+      chatInput.focus();
     }
+  });
 
-    displayMessages();
-
-    chatSend.addEventListener('click', () => {
-      const msg = chatInput.value.trim();
-      if (msg) {
-        messages.push(msg);
-        localStorage.setItem('chatMessages', JSON.stringify(messages));
-        displayMessages();
-        chatInput.value = '';
-        chatInput.focus();
-      }
-    });
-
-    // Optional: send message on Enter key press
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        chatSend.click();
-      }
-    });
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      chatSend.click();
+    }
+  });
   </script>
 </body>
 </html>
