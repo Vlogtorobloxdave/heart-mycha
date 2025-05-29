@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mycha Ridesa</title>
   <style>
-    /* General Reset */
     * {
       margin: 0;
       padding: 0;
@@ -17,6 +16,64 @@
       background-color: pink;
       overflow-x: hidden;
       position: relative;
+    }
+
+    /* Login overlay */
+    #login-screen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,192,203, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      animation: fadeIn 1s ease;
+    }
+
+    #login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: popUp 0.5s ease;
+    }
+
+    @keyframes popUp {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    input[type="text"], input[type="password"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border: 2px solid #ff69b4;
+      border-radius: 10px;
+    }
+
+    button#login-btn {
+      background-color: #ff69b4;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button#login-btn:hover {
+      background-color: #e4589f;
+    }
+
+    .error-msg {
+      color: red;
+      margin-top: 10px;
     }
 
     /* Floating hearts */
@@ -40,34 +97,15 @@
       border-radius: 50%;
     }
 
-    .heart-float::before {
-      top: -10px;
-      left: 0;
-    }
-
-    .heart-float::after {
-      top: 0;
-      left: 10px;
-    }
+    .heart-float::before { top: -10px; left: 0; }
+    .heart-float::after { top: 0; left: 10px; }
 
     @keyframes float {
-      0% {
-        bottom: -20px;
-        opacity: 0;
-        transform: translateX(0) rotate(-45deg);
-      }
-      50% {
-        opacity: 1;
-        transform: translateX(50px) rotate(-45deg);
-      }
-      100% {
-        bottom: 100%;
-        opacity: 0;
-        transform: translateX(-50px) rotate(-45deg);
-      }
+      0% { bottom: -20px; opacity: 0; transform: translateX(0) rotate(-45deg); }
+      50% { opacity: 1; transform: translateX(50px) rotate(-45deg); }
+      100% { bottom: 100%; opacity: 0; transform: translateX(-50px) rotate(-45deg); }
     }
 
-    /* Navigation bar */
     nav {
       background-color: #ff69b4;
       padding: 15px 0;
@@ -91,7 +129,6 @@
       text-shadow: 0 0 10px white;
     }
 
-    /* Title */
     .welcome {
       text-align: center;
       margin-top: 80px;
@@ -99,7 +136,6 @@
       font-size: 24px;
     }
 
-    /* Clock */
     .clock {
       text-align: center;
       font-size: 24px;
@@ -107,7 +143,6 @@
       color: #333;
     }
 
-    /* Buttons */
     .fb-buttons {
       display: flex;
       justify-content: center;
@@ -129,7 +164,6 @@
       background-color: #0e5bbf;
     }
 
-    /* Chat Box */
     #chat-container {
       max-width: 500px;
       margin: 0 auto 100px;
@@ -181,112 +215,24 @@
       background-color: #e4589f;
     }
 
-    /* Footer */
     footer {
       text-align: center;
       padding: 20px;
       font-size: 14px;
       color: #555;
     }
-
-    /* Login Overlay */
-    #login-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(255, 192, 203, 0.95);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: fadeIn 0.7s ease forwards;
-      flex-direction: column;
-    }
-
-    #login-box {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #ff69b4;
-      text-align: center;
-      width: 320px;
-      animation: scaleIn 0.7s ease forwards;
-    }
-
-    #login-box h2 {
-      margin-bottom: 20px;
-      color: #ff69b4;
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-
-    #login-box input {
-      width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
-      border: 2px solid #ff69b4;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    #login-box button {
-      background-color: #ff69b4;
-      color: white;
-      border: none;
-      padding: 12px 0;
-      width: 100%;
-      font-weight: bold;
-      font-size: 18px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: background-color 0.3s;
-    }
-
-    #login-box button:hover {
-      background-color: #e4589f;
-    }
-
-    #error-msg {
-      color: red;
-      margin-top: 10px;
-      min-height: 20px;
-      font-weight: 600;
-      font-size: 14px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    #error-msg.visible {
-      opacity: 1;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    @keyframes scaleIn {
-      from {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Login Overlay -->
-  <div id="login-overlay">
+  <!-- Login Screen -->
+  <div id="login-screen">
     <div id="login-box">
-      <h2>Login</h2>
-      <input type="text" id="username" placeholder="Username" autocomplete="off" />
-      <input type="password" id="password" placeholder="Password" autocomplete="off" />
-      <button id="login-btn">Log In</button>
-      <div id="error-msg"></div>
+      <h2>Login First 💖</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button id="login-btn">Login</button>
+      <div class="error-msg" id="error-msg"></div>
     </div>
   </div>
 
@@ -332,7 +278,26 @@
 
   <footer>© 2025 | Charles & Mycha 💖</footer>
 
+  <audio id="error-sound" src="https://www.myinstants.com/media/sounds/windows-error.mp3"></audio>
+
   <script>
+    // Login logic
+    const loginBtn = document.getElementById("login-btn");
+    const errorMsg = document.getElementById("error-msg");
+    const errorSound = document.getElementById("error-sound");
+
+    loginBtn.addEventListener("click", () => {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "charleskevin98832" && pass === "admin12345") {
+        document.getElementById("login-screen").style.display = "none";
+      } else {
+        errorMsg.textContent = "Wrong username or password!";
+        errorSound.play();
+      }
+    });
+
     // Live Clock
     function updateClock() {
       const now = new Date();
@@ -362,29 +327,6 @@
         messages.scrollTop = messages.scrollHeight;
       }
     });
-
-    // Login Logic
-    function playBeep() {
-  const ctx = new AudioContext();
-  const oscillator = ctx.createOscillator();
-  oscillator.type = 'square';
-  oscillator.frequency.setValueAtTime(440, ctx.currentTime); // A4 note
-  oscillator.connect(ctx.destination);
-  oscillator.start();
-  oscillator.stop(ctx.currentTime + 0.3); // 0.3 seconds beep
-}
-
-loginBtn.addEventListener('click', () => {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  if (username === 'charleskevin98832' && password === 'admin12345') {
-    errorMsg.classList.remove('visible');
-    loginOverlay.style.display = 'none';
-  } else {
-    errorMsg.innerText = 'Incorrect username or password!';
-    errorMsg.classList.add('visible');
-    playBeep(); // play beep on error
-  }
-});
-    
+  </script>
+</body>
+</html>
