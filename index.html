@@ -18,6 +18,36 @@
       position: relative;
     }
 
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ffc0cb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      animation: fadeOut 1s ease 2s forwards;
+    }
+
+    .loader {
+      border: 8px solid #fff;
+      border-top: 8px solid #ff69b4;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
     /* Login overlay */
     #login-screen {
       position: fixed;
@@ -58,16 +88,18 @@
       border-radius: 10px;
     }
 
-    button#login-btn {
+    button {
       background-color: #ff69b4;
       color: white;
       padding: 10px 20px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      transition: 0.3s ease;
     }
 
-    button#login-btn:hover {
+    button:hover {
+      transform: scale(1.05);
       background-color: #e4589f;
     }
 
@@ -202,19 +234,6 @@
       border: 2px solid #ff69b4;
     }
 
-    #chat-send {
-      background-color: #ff69b4;
-      color: white;
-      padding: 8px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    #chat-send:hover {
-      background-color: #e4589f;
-    }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -225,7 +244,10 @@
 </head>
 <body>
 
-  <!-- Login Screen -->
+  <!-- Loading -->
+  <div id="loading-screen"><div class="loader"></div></div>
+
+  <!-- Login -->
   <div id="login-screen">
     <div id="login-box">
       <h2>Login First 💖</h2>
@@ -267,7 +289,7 @@
     <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" class="fb-button" target="_blank">Charles Kevin</a>
   </div>
 
-  <!-- Chat Container -->
+  <!-- Chat -->
   <div id="chat-container">
     <div id="chat-messages"></div>
     <div id="chat-input-area">
@@ -281,17 +303,31 @@
   <audio id="error-sound" src="https://www.myinstants.com/media/sounds/windows-error.mp3"></audio>
 
   <script>
-    // Login logic
+    // Loading screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 2000);
+    });
+
+    // Login Logic
+    const loginScreen = document.getElementById("login-screen");
     const loginBtn = document.getElementById("login-btn");
     const errorMsg = document.getElementById("error-msg");
     const errorSound = document.getElementById("error-sound");
+
+    // Show login screen only if not logged in
+    if (localStorage.getItem("loggedIn") === "true") {
+      loginScreen.style.display = "none";
+    }
 
     loginBtn.addEventListener("click", () => {
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
 
       if (user === "charleskevin98832" && pass === "admin12345") {
-        document.getElementById("login-screen").style.display = "none";
+        loginScreen.style.display = "none";
+        localStorage.setItem("loggedIn", "true");
       } else {
         errorMsg.textContent = "Wrong username or password!";
         errorSound.play();
@@ -329,4 +365,4 @@
     });
   </script>
 </body>
-</html>
+    </html>
