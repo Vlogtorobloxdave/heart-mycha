@@ -1,466 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mycha Ridesa</title>
-  <style>
-    body {
-      background-color: pink;
-      background-image:
-        radial-gradient(circle at 25% 25%, rgba(255,0,0,0.15) 20%, transparent 21%),
-        radial-gradient(circle at 75% 75%, rgba(255,0,0,0.15) 20%, transparent 21%);
-      background-size: 100px 100px;
-      background-repeat: repeat;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      position: relative;
-      padding-bottom: 280px; /* dagdag space para sa chat */
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mycha Website V2</title>
+<style>
+  /* Background pink with subtle hearts pattern */
+  body {
+    margin: 0; padding: 0;
+    background: pink;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  /* Fullscreen Loading */
+  #loading-screen {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+  }
+  
+  /* Loading spinner hearts */
+  .loading-heart {
+    width: 50px; height: 45px;
+    background: red;
+    position: relative;
+    transform: rotate(-45deg);
+    animation: pulse 1.2s infinite;
+    margin: 0 8px;
+  }
+  .loading-heart::before,
+  .loading-heart::after {
+    content: "";
+    background: red;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+  }
+  .loading-heart::before {
+    top: -25px; left: 0;
+  }
+  .loading-heart::after {
+    left: 25px; top: 0;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: rotate(-45deg) scale(1); }
+    50% { transform: rotate(-45deg) scale(1.2); }
+  }
 
-    h1 {
-      background-color: gray;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 10px;
-      text-align: center;
-      margin-bottom: 30px;
-    }
+  /* Hearts floating around background */
+  .floating-heart {
+    position: fixed;
+    width: 30px; height: 27px;
+    background: red;
+    transform: rotate(-45deg);
+    border-radius: 0;
+    animation: floatUp linear infinite;
+    opacity: 0.8;
+  }
+  .floating-heart::before,
+  .floating-heart::after {
+    content: "";
+    background: red;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+  }
+  .floating-heart::before {
+    top: -15px; left: 0;
+  }
+  .floating-heart::after {
+    left: 15px; top: 0;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(-45deg) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-100px) rotate(-45deg) scale(1.2); opacity: 0; }
+  }
 
-    h2, h3 {
-      color: gray;
-      text-align: center;
-      margin: 5px 0;
-    }
+  /* Main container */
+  #main {
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 150px;
+    color: #8B004B;
+  }
 
-    h2 {
-      font-size: 2.5em;
-    }
+  /* Header */
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+  }
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
 
-    h3 {
-      font-size: 2em;
-    }
+  /* Typewriter style */
+  #typewriter-text {
+    font-size: 1.5rem;
+    color: #b30059;
+    border-right: 3px solid #b30059;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 4s steps(40, end) forwards, blink 0.75s step-end infinite;
+    margin: 0 auto 40px auto;
+    max-width: 100%;
+  }
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  @keyframes blink {
+    50% { border-color: transparent }
+  }
 
-    .heart {
-      width: 50px;
-      height: 45px;
-      background: red;
-      position: relative;
-      transform: rotate(-45deg);
-      animation: pulse 1.2s infinite;
-      margin-bottom: 20px;
-    }
+  /* Chat Box Styles */
+  #chat-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #ff69b4;
+    padding: 15px;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+  }
 
-    .heart::before,
-    .heart::after {
-      content: "";
-      background: red;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      position: absolute;
-    }
+  #chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 2px solid #ff69b4;
+    border-radius: 12px;
+    padding: 12px;
+    background: #ffe6f0;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  #chat-messages div {
+    background: #ffb6c1;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+    color: #650025;
+  }
 
-    .heart::before {
-      top: -25px;
-      left: 0;
-    }
+  #chat-input-area {
+    display: flex;
+    gap: 10px;
+  }
+  #chat-input {
+    flex-grow: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid #ff69b4;
+    outline: none;
+  }
+  #chat-send {
+    background: #ff69b4;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #chat-send:hover {
+    background: #e55a99;
+  }
 
-    .heart::after {
-      left: 25px;
-      top: 0;
-    }
+  /* Responsive */
+  @media (max-width: 600px) {
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.25rem; }
+    #chat-container { height: 250px; }
+  }
 
-    @keyframes pulse {
-      0%, 100% { transform: rotate(-45deg) scale(1); }
-      50% { transform: rotate(-45deg) scale(1.2); }
-    }
-
-    .box {
-      border: 6px solid transparent;
-      padding: 30px;
-      border-radius: 20px;
-      background: linear-gradient(#111, #111) padding-box,
-                  repeating-linear-gradient(45deg, #ff69b4, #ff69b4 10px, #fff 10px, #fff 20px) border-box;
-      box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
-      text-align: center;
-      max-width: 90%;
-    }
-
-    .typewriter {
-      font-size: 2rem;
-      animation: fadeIn 1s ease-in-out;
-      color: green;
-    }
-
-    .cursor {
-      display: inline-block;
-      background-color: green;
-      width: 2px;
-      margin-left: 5px;
-      animation: blink 0.7s steps(1) infinite;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .fb-button {
-      background-color: #1877f2;
-      color: white;
-      padding: 12px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .heart-background {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 70px;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9em;
-      color: gray;
-    }
-
-    .fb-links {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-      font-size: 1em;
-      color: #1877f2;
-      font-weight: bold;
-    }
-
-    .fb-links a {
-      color: #1877f2;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    .fb-links a:hover {
-      text-decoration: underline;
-    }
-
-    /* CHAT BOX */
-    #chat-container {
-      bottom: 110px;
-      width: 90%;
-      max-width: 600px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
-      padding: 15px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 250px;
-    }
-
-    #chat-messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      border: 2px solid #ff69b4;
-      border-radius: 10px;
-      padding: 10px;
-      background: #fff0f6;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-    }
-
-    #chat-messages div {
-      margin-bottom: 6px;
-      padding: 6px 10px;
-      background: #ffb6c1;
-      border-radius: 10px;
-      max-width: 80%;
-      word-wrap: break-word;
-    }
-
-    #chat-input-area {
-      display: flex;
-      gap: 10px;
-    }
-
-    #chat-input {
-      flex-grow: 1;
-      padding: 8px 12px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 2px solid #ff69b4;
-      outline: none;
-    }
-
-    #chat-send {
-      background: #ff69b4;
-      border: none;
-      color: white;
-      padding: 8px 20px;
-      font-size: 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    #chat-send:hover {
-      background: #e55a99;
-    }
-
-        * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      background: #0f0f0f;
-      color: #fff;
-    }
-
-    nav {
-      width: 100%;
-      background: #111;
-      padding: 15px 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
-
-    .nav-links a {
-      position: relative;
-      color: #fff;
-      text-decoration: none;
-      font-size: 16px;
-      padding: 8px 16px;
-      border: 2px solid transparent;
-      transition: all 0.3s ease-in-out;
-      overflow: hidden;
-    }
-
-    .nav-links a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, #ff00cc, #3333ff);
-      transition: 0.4s;
-      z-index: -1;
-    }
-
-    .nav-links a:hover::before {
-      left: 0;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-      transform: scale(1.1);
-      box-shadow: 0 0 12px #ff00cc, 0 0 20px #3333ff;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .welcome {
-      margin-top: 120px;
-      text-align: center;
-      padding: 20px;
-      animation: fadeInUp 1.5s ease;
-    }
-
-    .welcome h1 {
-      font-size: 24px;
-      line-height: 1.5;
-      color: #fff;
-      text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff;
-      word-wrap: break-word;
-    }
-
-    /* ✅ Responsive for small screens */
-    @media (max-width: 768px) {
-      .nav-links {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .nav-links a {
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      .welcome h1 {
-        font-size: 20px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .welcome h1 {
-        font-size: 18px;
-      }
-
-      .nav-links a {
-        font-size: 13px;
-        padding: 8px;
-      }
-      }
-  </style>
+</style>
 </head>
 <body>
 
-    <nav>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Projects</a>
-      <a href="#">Contact</a>
-    </div>
-  </nav>
-
-  <div class="welcome">
-    <h1>Welcome to my website. My name is <br>Charles Kevin B. Dajao</h1>
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div style="display:flex;">
+    <div class="loading-heart" style="animation-delay: 0s;"></div>
+    <div class="loading-heart" style="animation-delay: 0.3s;"></div>
+    <div class="loading-heart" style="animation-delay: 0.6s;"></div>
   </div>
-  <hr>
-  <br>
-  <br>
-  <div class="heart"></div>
-  <br>
-  <hr>
+  <p style="color:#8B004B; margin-top: 15px; font-weight: bold;">Loading... Please wait</p>
+</div>
 
-  <h2>Grabe na si Mycha</h2>
-  <h3>Maganda ka no diba</h3>
+<!-- Floating Hearts -->
+<div class="floating-heart" style="left: 10%; animation-duration: 10s; animation-delay: 0s;"></div>
+<div class="floating-heart" style="left: 30%; animation-duration: 14s; animation-delay: 2s;"></div>
+<div class="floating-heart" style="left: 50%; animation-duration: 12s; animation-delay: 1s;"></div>
+<div class="floating-heart" style="left: 70%; animation-duration: 11s; animation-delay: 3s;"></div>
+<div class="floating-heart" style="left: 85%; animation-duration: 13s; animation-delay: 0.5s;"></div>
+
+<div id="main" aria-live="polite" aria-atomic="true">
   <h1>Mycha Redisa</h1>
+  <h2>Maganda ka no diba</h2>
+  <h3>Welcome to my website</h3>
 
-  <div class="box">
-    <div class="typewriter" id="text"></div>
-    <div class="cursor"></div>
-  </div>
+  <div id="typewriter-text"></div>
 
-  <script>
-    const message = "hi mycha ginawa kita na website heheh🥰🥰🥰🥰🥰😍😍😍😍😍♥️♥️♥️♥️😘😘😘😘😘😘!";
-    const target = document.getElementById("text");
-    let index = 0;
-    let isDeleting = false;
-
-    function type() {
-      if (!isDeleting) {
-        target.textContent = message.substring(0, index + 1);
-        index++;
-        if (index === message.length) {
-          isDeleting = true;
-          setTimeout(type, 1500);
-          return;
-        }
-      } else {
-        target.textContent = message.substring(0, index - 1);
-        index--;
-        if (index === 0) {
-          isDeleting = false;
-        }
-      }
-      setTimeout(type, isDeleting ? 50 : 100);
-    }
-
-    type();
-  </script>
-  <div class="heart-background">
-    <p style="color: blie;">Click Here</p>
-    <a href="https://www.facebook.com/mhycaridesa/" class="fb-button" target="_blank">Mycha Ridesa</a>
-    <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" class="fb-button" target="_blank">Charles Kevin B Dajao</a>
-  </div>
-
-  <!-- CHAT BOX -->
-  <div id="chat-container">
-    <div id="chat-messages"></div>
+  <div id="chat-container" role="region" aria-label="Chat box">
+    <div id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
     <div id="chat-input-area">
-      <input type="text" id="chat-input" placeholder="Type your message..." />
-      <button id="chat-send">Send</button>
+      <input id="chat-input" type="text" aria-label="Type your message" placeholder="Type your message here..." />
+      <button id="chat-send" aria-label="Send message">Send</button>
     </div>
   </div>
+</div>
 
-  <footer>© 2025</footer>
+<script>
+  // Hide loading screen after page fully loads with fadeout
+  window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.style.transition = 'opacity 1s ease';
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+    }, 1000);
+  });
 
-  <div class="fb-links">
-    <a href="https://www.facebook.com/mhycaridesa/" target="_blank">facebook.com/mhycaridesa</a> | 
-    <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" target="_blank">facebook.com/charles.kevin.b.dajao.2025</a>
-  </div>
+  // Typewriter text effect
+  const typewriterText = "Hi Mycha! Ginawa kita ng website! 🥰😍♥️😘";
+  const typewriterEl = document.getElementById('typewriter-text');
+  let idx = 0;
 
-  <script>
-  function sendMessageToServer(message, sender) {
-    fetch('http://localhost:3000/send-sms', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ message, sender })
-    })
-    .then(response => response.text())
-    .then(data => {
-      console.log(data);
-      alert('09308545388!');
-    })
-    .catch(err => {
-      console.error('Error:', err);
-      alert('Failed to send message');
-    });
+  function typeWriter() {
+    if (idx <= typewriterText.length) {
+      typewriterEl.textContent = typewriterText.substring(0, idx);
+      idx++;
+      setTimeout(typeWriter, 100);
+    } else {
+      // restart typing every 5 seconds
+      setTimeout(() => {
+        idx = 0;
+        typeWriter();
+      }, 5000);
+    }
+  }
+  typeWriter();
+
+  // Chat message sending logic
+  const chatSendBtn = document.getElementById('chat-send');
+  const chatInput = document.getElementById('chat-input');
+  const chatMessages = document.getElementById('chat-messages');
+
+  function addMessageToChat(message, sender = 'You') {
+    const div = document.createElement('div');
+    div.textContent = sender + ': ' + message;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Example when sending message from chat box
-  const chatSend = document.getElementById('chat-send');
-  const chatInput = document.getElementById('chat-input');
+  chatSendBtn.addEventListener('click', () => {
+    const msg = chatInput.value.trim();
+    if (!msg) return;
+    addMessageToChat(msg, 'You');
 
-  chatSend.addEventListener('click', () => {
-    const message = chatInput.value.trim();
-    if (message) {
-      sendMessageToServer(message, 'Website Visitor');
-      chatInput.value = '';
+    // Send message to your backend server
+    fetch('http://localhost:3000/send-sms', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ message: msg, sender: 'Website Visitor' }),
+    })
+    .then(res => res.text())
+    .then(data => {
+      addMessageToChat('Message sent to server ✔️', 'Server');
+    })
+    .catch(() => {
+      addMessageToChat('Failed to send message ❌', 'Server');
+    });
+
+    chatInput.value = '';
+  });
+
+  // Optional: Press Enter key to send message
+  chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      chatSendBtn.click();
     }
   });
-  </script>
+</script>
 </body>
 </html>
