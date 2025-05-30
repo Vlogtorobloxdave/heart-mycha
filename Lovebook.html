@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Book 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #ffdee9, #ffc3a0);
+      overflow-x: hidden;
+      animation: fadeIn 1s ease;
+    }@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.container {
+  max-width: 700px;
+  margin: 100px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  color: #ff69b4;
+  margin-bottom: 30px;
+}
+
+textarea {
+  width: 100%;
+  height: 300px;
+  border: 2px solid #ff69b4;
+  border-radius: 15px;
+  padding: 15px;
+  font-size: 16px;
+  resize: none;
+  background: #fff0f6;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #ff69b4;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s ease;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #e4589f;
+  transform: scale(1.05);
+}
+
+.hearts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hearts span {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(-45deg);
+  animation: float 8s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+.hearts span::before,
+.hearts span::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
+
+.hearts span::before {
+  top: -10px;
+  left: 0;
+}
+
+.hearts span::after {
+  left: 10px;
+  top: 0;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-800px) rotate(-45deg); opacity: 0; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💖 Love Book 💖</h1>
+    <textarea id="loveText" placeholder="Type about your crush here..."></textarea>
+    <br />
+    <button class="btn" onclick="downloadText()">Download Love Note</button>
+  </div>  <div class="hearts">
+    <span style="left:10%; animation-delay: 0s;"></span>
+    <span style="left:20%; animation-delay: 2s;"></span>
+    <span style="left:40%; animation-delay: 4s;"></span>
+    <span style="left:60%; animation-delay: 1s;"></span>
+    <span style="left:80%; animation-delay: 3s;"></span>
+  </div>  <script>
+    function downloadText() {
+      const text = document.getElementById("loveText").value;
+      const blob = new Blob([
+        `💖 Love Note 💖\n\n${text}\n\nSent with love 💕`
+      ], { type: 'text/plain' });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "My_Love_Note.txt";
+      link.click();
+    }
+  </script></body>
+</html>
