@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mycha Ridesa</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
 
@@ -240,140 +238,284 @@
       font-size: 14px;
       color: #555;
     }
+
+    /* ======================
+       Music Button & Heart Timeline
+    =======================*/
+
+    #music-control {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    #music-btn {
+      width: 60px;
+      height: 60px;
+      background-color: #ff69b4;
+      border: none;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px #ff1493;
+      transition: background-color 0.3s ease;
+    }
+
+    #music-btn:hover {
+      background-color: #ff1493;
+    }
+
+    /* Heart shape with CSS */
+    #music-btn::before,
+    #music-btn::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 45px;
+      background-color: white;
+      border-radius: 50% 50% 0 0;
+      top: 10px;
+      left: 15px;
+      transform-origin: bottom center;
+      transition: transform 0.3s ease;
+    }
+
+    #music-btn::after {
+      left: auto;
+      right: 15px;
+      transform-origin: bottom center;
+    }
+
+    /* Smaller inner heart for pulse effect */
+    #music-btn .heart-inner {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      clip-path: polygon(50% 15%, 90% 50%, 50% 90%, 10% 50%);
+      opacity: 0.8;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    /* Heart-shaped progress bar container */
+    #progress-container {
+      width: 60px;
+      height: 60px;
+      position: relative;
+    }
+
+    /* Progress Heart shape */
+    #progress-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      background: conic-gradient(#ff1493 0deg, #ff1493 0deg, #ffc0cb 0deg, #ffc0cb 360deg);
+      transition: background 0.3s ease;
+      box-shadow: 0 0 10px #ff1493;
+      pointer-events: none;
+    }
+
   </style>
 </head>
 <body>
 <audio id="bg-music" loop>
-  <source src="Elvis-Presley-Cant-Help-Falling-In-Love.mp3" type="audio/mp3">
+  <source src="Elvis-Presley-Cant-Help-Falling-In-Love.mp3" type="audio/mp3" />
+  Your browser does not support the audio element.
 </audio>
 
 <script>
+  // Play music only once on first user interaction (required by browsers)
   document.addEventListener('click', function () {
     const audio = document.getElementById('bg-music');
     audio.play().catch(e => console.log("Autoplay blocked:", e));
   }, { once: true });
 </script>
-  <!-- Loading -->
-  <div id="loading-screen"><div class="loader"></div></div>
 
-  <!-- Login -->
-  <div id="login-screen">
-    <div id="login-box">
-      <h2>Login First 💖</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <button id="login-btn">Login</button>
-      <div class="error-msg" id="error-msg"></div>
-      <p class="black">Made By Family Dajao <br>
-      This website is a heart of love — name your crush and share it <a href="https://m.facebook.com/vlog.to.roblox.dave/" <a/>Here.</p>
-    </div>
+<!-- Loading -->
+<div id="loading-screen"><div class="loader"></div></div>
+
+<!-- Login -->
+<div id="login-screen">
+  <div id="login-box">
+    <h2>Login First 💖</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="login-btn">Login</button>
+    <div class="error-msg" id="error-msg"></div>
+    <p class="black">Made By Family Dajao <br>
+      This website is a heart of love — name your crush and share it <a href="https://m.facebook.com/vlog.to.roblox.dave/" target="_blank">Here.</a></p>
   </div>
+</div>
 
-  <!-- Floating hearts -->
-  <div class="heart-float" style="left: 10%; animation-delay: 0s;"></div>
-  <div class="heart-float" style="left: 30%; animation-delay: 2s;"></div>
-  <div class="heart-float" style="left: 50%; animation-delay: 4s;"></div>
-  <div class="heart-float" style="left: 70%; animation-delay: 1s;"></div>
-  <div class="heart-float" style="left: 90%; animation-delay: 3s;"></div>
+<!-- Floating hearts -->
+<div class="heart-float" style="left: 10%; animation-delay: 0s;"></div>
+<div class="heart-float" style="left: 30%; animation-delay: 2s;"></div>
+<div class="heart-float" style="left: 50%; animation-delay: 4s;"></div>
+<div class="heart-float" style="left: 70%; animation-delay: 1s;"></div>
+<div class="heart-float" style="left: 90%; animation-delay: 3s;"></div>
 
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="Lovebook.html">LoveBook</a>
-      <a href="#">Contact</a>
-    </div>
-  </nav>
-
-  <div class="welcome">
-    <h1>Welcome to Charles's Website!</h1>
-    <p>Made in Charled🥰</p>
+<!-- Navigation -->
+<nav>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="Lovebook.html">LoveBook</a>
+    <a href="#">Contact</a>
   </div>
+</nav>
 
-  <!-- Clock -->
-  <div class="clock" id="clock">--:-- --</div>
+<div class="welcome">
+  <h1>Welcome to Charles's Website!</h1>
+  <p>Made in Charled🥰</p>
+</div>
 
-  <!-- Facebook Buttons -->
-  <div class="fb-buttons">
-    <a href="https://www.facebook.com/mhycaridesa/" class="fb-button" target="_blank">Mycha Ridesa</a>
-    <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" class="fb-button" target="_blank">Charles Kevin</a>
+<!-- Clock -->
+<div class="clock" id="clock">--:-- --</div>
+
+<!-- Facebook Buttons -->
+<div class="fb-buttons">
+  <a href="https://www.facebook.com/mhycaridesa/" class="fb-button" target="_blank">Mycha Ridesa</a>
+  <a href="https://www.facebook.com/charles.kevin.b.dajao.2025/" class="fb-button" target="_blank">Charles Kevin</a>
+</div>
+
+<!-- Chat -->
+<div id="chat-container">
+  <div id="chat-messages"></div>
+  <div id="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Type your message..." />
+    <button id="send-btn">Send</button>
   </div>
+</div>
 
-  <!-- Chat -->
-  <div id="chat-container">
-    <div id="chat-messages"></div>
-    <div id="chat-input-area">
-      <input type="text" id="chat-input" placeholder="Type your message..." />
-      <button id="chat-send">Send</button>
-    </div>
+<!-- Music Control Button + Heart Timeline -->
+<div id="music-control" title="Play/Pause Music">
+  <button id="music-btn" aria-label="Play/Pause Music">
+    <div class="heart-inner"></div>
+  </button>
+  <div id="progress-container">
+    <div id="progress-bar"></div>
   </div>
+</div>
 
-  <footer>© 2025 | a copyright 💖</footer>
+<footer>
+  &copy; 2025 Mycha Ridesa. All rights reserved.
+</footer>
 
-  <audio id="error-sound" src="https://www.myinstants.com/media/sounds/windows-error.mp3"></audio>
+<script>
+  // Clock Function
+  function updateClock() {
+    const clock = document.getElementById('clock');
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    clock.textContent = `${hours}:${minutes} ${ampm}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 
-  <script>
-    // Loading screen
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 2000);
-    });
+  // Login logic (simple example)
+  const loginScreen = document.getElementById('login-screen');
+  const loginBtn = document.getElementById('login-btn');
+  const errorMsg = document.getElementById('error-msg');
 
-    // Login Logic
-    const loginScreen = document.getElementById("login-screen");
-    const loginBtn = document.getElementById("login-btn");
-    const errorMsg = document.getElementById("error-msg");
-    const errorSound = document.getElementById("error-sound");
-
-    // Show login screen only if not logged in
-    if (localStorage.getItem("loggedIn") === "true") {
-      loginScreen.style.display = "none";
+  loginBtn.addEventListener('click', () => {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    if (user === 'user' && pass === 'password') {
+      loginScreen.style.display = 'none';
+      localStorage.setItem('loggedIn', 'true');
+    } else {
+      errorMsg.textContent = 'Invalid username or password';
     }
+  });
 
-    loginBtn.addEventListener("click", () => {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-
-      if (user === "charleskevin98832" && pass === "admin12345") {
-        loginScreen.style.display = "none";
-        localStorage.setItem("loggedIn", "true");
-      } else {
-        errorMsg.textContent = "Wrong username or password!";
-        errorSound.play();
-      }
-    });
-
-    // Live Clock
-    function updateClock() {
-      const now = new Date();
-      let hours = now.getHours();
-      let minutes = now.getMinutes();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      minutes = minutes < 10 ? '0' + minutes : minutes;
-      document.getElementById('clock').innerText = `${hours}:${minutes} ${ampm}`;
+  // Keep logged in on refresh
+  window.addEventListener('load', () => {
+    if (localStorage.getItem('loggedIn') === 'true') {
+      loginScreen.style.display = 'none';
     }
-    setInterval(updateClock, 1000);
-    updateClock();
+  });
 
-    // Chat
-    const messages = document.getElementById('chat-messages');
-    const input = document.getElementById('chat-input');
-    const send = document.getElementById('chat-send');
+  // Loading screen hide after delay
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const loading = document.getElementById('loading-screen');
+      loading.style.opacity = '0';
+      setTimeout(() => loading.style.display = 'none', 1000);
+    }, 3000);
+  });
 
-    send.addEventListener('click', () => {
-      const text = input.value.trim();
-      if (text !== '') {
-        const div = document.createElement('div');
-        div.className = 'message';
-        div.innerText = text;
-        messages.appendChild(div);
-        input.value = '';
-        messages.scrollTop = messages.scrollHeight;
-      }
+  // Chat send button dummy
+  const sendBtn = document.getElementById('send-btn');
+  const chatInput = document.getElementById('chat-input');
+  const chatMessages = document.getElementById('chat-messages');
+
+  sendBtn.addEventListener('click', () => {
+    const msg = chatInput.value.trim();
+    if(msg){
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.textContent = msg;
+      chatMessages.appendChild(div);
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  });
+
+  // Music Control
+
+  const audio = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-btn');
+  const progressBar = document.getElementById('progress-bar');
+
+  // Toggle play/pause on button click
+  musicBtn.addEventListener('click', () => {
+    if(audio.paused){
+      audio.play();
+      musicBtn.style.backgroundColor = '#ff1493';
+    } else {
+      audio.pause();
+      musicBtn.style.backgroundColor = '#ff69b4';
+    }
+  });
+
+  // Update heart-shaped progress bar
+  audio.addEventListener('timeupdate', () => {
+    const duration = audio.duration || 0;
+    const currentTime = audio.currentTime || 0;
+    const percent = (currentTime / duration) * 360;
+    progressBar.style.background = `conic-gradient(#ff1493 ${percent}deg, #ffc0cb ${percent}deg 360deg)`;
+  });
+
+  // Start with music paused and reset progress bar
+  audio.pause();
+  progressBar.style.background = `conic-gradient(#ffc0cb 0deg, #ffc0cb 360deg)`;
+
+  // Play music on first user interaction (some browsers restrict autoplay)
+  document.addEventListener('click', function initAudio() {
+    audio.play().catch(() => {
+      // ignore if blocked
     });
-  </script>
+    document.removeEventListener('click', initAudio);
+  });
+
+</script>
 </body>
-    </html>
+</html>
