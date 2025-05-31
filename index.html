@@ -243,9 +243,16 @@
   </style>
 </head>
 <body>
-<audio autoplay loop hidden>
-  <source src="Elvis Presley - Can't Help Falling In Love (Official Audio).mp3" type="audio/mpeg">
+<audio id="bg-music" loop>
+  <source src="Elvis-Presley-Cant-Help-Falling-In-Love.mp3" type="audio/mp3">
 </audio>
+
+<script>
+  document.addEventListener('click', function () {
+    const audio = document.getElementById('bg-music');
+    audio.play().catch(e => console.log("Autoplay blocked:", e));
+  }, { once: true });
+</script>
   <!-- Loading -->
   <div id="loading-screen"><div class="loader"></div></div>
 
