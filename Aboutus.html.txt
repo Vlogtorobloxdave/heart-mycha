@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - Mycha Ridesa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6f0;
+      color: #444;
+    }
+
+    header {
+      background-color: #ff69b4;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #e91e63;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .love-link {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    /* Floating hearts background animation */
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      transform: rotate(-45deg);
+      animation: float 6s infinite ease-in-out;
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: 10px;
+    }
+
+    @keyframes float {
+      0% {
+        bottom: -20px;
+        opacity: 0;
+        transform: translateX(0) rotate(-45deg);
+      }
+      50% {
+        opacity: 1;
+        transform: translateX(40px) rotate(-45deg);
+      }
+      100% {
+        bottom: 100%;
+        opacity: 0;
+        transform: translateX(-40px) rotate(-45deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating hearts -->
+  <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="heart" style="left: 30%; animation-delay: 2s;"></div>
+  <div class="heart" style="left: 50%; animation-delay: 1s;"></div>
+  <div class="heart" style="left: 70%; animation-delay: 3s;"></div>
+  <div class="heart" style="left: 90%; animation-delay: 4s;"></div>
+
+  <!-- Header -->
+  <header>
+    <h2>About Us</h2>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Welcome to Our Love Website 💖</h1>
+    <p>
+      This website is for your crushes or boyfriends to show how much you love each other and joke around in conversation.
+      <br><br>
+      The LoveBook is where you write a letter that you will send to your crush.
+    </p>
+
+    <!-- Normal button (link to Lovebook page) -->
+    <a class="love-link" href="Lovebook.html">Download LoveBook</a>
+        <a class="love-link" href="Lovebook.html">Back Home ⬅️</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 | Created with Love 💖
+  </footer>
+</body>
+</html>
