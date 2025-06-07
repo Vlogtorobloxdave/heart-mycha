@@ -132,7 +132,7 @@
 
     <!-- Normal button (link to Lovebook page) -->
     <a class="love-link" href="Lovebook.html">Download LoveBook</a>
-        <a class="love-link" href="Lovebook.html">Back Home ⬅️</a>
+        <a class="love-link" href="Index.html">Back Home ⬅️</a>
   </div>
 
   <!-- Footer -->
