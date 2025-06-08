@@ -255,6 +255,61 @@
 <body>
   <div id="loading-screen"><div class="loader"></div></div>
 
+
+<!-- Suspension Overlay -->
+<div id="suspension-overlay">
+  <div class="suspension-box">
+    <h1>🚫 Website Suspended</h1>
+    <p>This website is currently under maintenance. Please check back later.</p>
+  </div>
+</div>
+
+<style>
+  #suspension-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 192, 203, 0.9); /* pink overlay */
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    pointer-events: all;
+  }
+
+  .suspension-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    max-width: 400px;
+  }
+
+  .suspension-box h1 {
+    font-size: 28px;
+    color: #e91e63;
+    margin-bottom: 15px;
+  }
+
+  .suspension-box p {
+    font-size: 16px;
+    color: #555;
+  }
+</style>
+
+
+
+<!-- Suspension Overlay End -->
+
+
+
+
+
+  
   <div id="login-screen">
     <div id="login-box">
       <h2>Login First 💖</h2>
