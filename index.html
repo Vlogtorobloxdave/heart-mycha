@@ -257,7 +257,9 @@
 
 
 <!-- Suspension Overlay -->
-<div id="suspension-overlay">
+
+<!-- SUSPENSION OVERLAY -->
+<div id="suspension-overlay" style="display: none;">
   <div class="suspension-box">
     <h1>🚫 Website Suspended</h1>
     <p>This website is currently under maintenance. Please check back later.</p>
@@ -272,7 +274,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 192, 203, 0.9); /* pink overlay */
+    background: rgba(255, 192, 203, 0.9);
     z-index: 99999;
     display: flex;
     align-items: center;
@@ -302,7 +304,18 @@
   }
 </style>
 
+<!-- BROWSER DETECTION SCRIPT -->
+<script>
+  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
+  if (isChrome) {
+    // Show the suspension overlay
+    document.getElementById("suspension-overlay").style.display = "flex";
+
+    // Optional: Hide rest of the page
+    document.body.innerHTML = document.getElementById("suspension-overlay").outerHTML;
+  }
+</script>
 
 <!-- Suspension Overlay End -->
 
