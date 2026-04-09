@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mycha Ridesa</title>
+  <title>hearts</title
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -364,6 +364,51 @@ footer {
         messages.scrollTop = messages.scrollHeight;
       }
     });
-  </script></body>
+  </script>
+
+
+
+
+
+
+<script>
+const SUSPEND_DURATION = 5 * 60 * 1000; // 5 minutes
+
+function checkAccess() {
+    const suspendUntil = localStorage.getItem('suspendUntil');
+    const now = Date.now();
+
+    if (suspendUntil && now < parseInt(suspendUntil)) {
+        document.body.innerHTML = `
+            <h1>Access Suspended Temporarily</h1>
+            <p>You cannot access this site until ${new Date(parseInt(suspendUntil)).toLocaleTimeString()}.</p>
+        `;
+        return false;
+    }
+}
+
+// Suspend user function
+function suspendUser() {
+    const suspendUntil = Date.now() + SUSPEND_DURATION;
+    localStorage.setItem('suspendUntil', suspendUntil);
+    alert("You are suspended for 5 minutes!");
+    location.reload(); // Refresh to show suspension immediately
+}
+
+// Run on page load
+window.onload = () => {
+    checkAccess();
+};
+
+// Optional: suspend user automatically when they close tab
+window.onbeforeunload = () => {
+    suspendUser();
+};
+</script>
+</head>
+<body>
+<h1>Welcome to the site!</h1>
+<p>You have full access.</p>
+<button onclick="suspendUser()">Suspend Me Temporarily</button></body>
 </html>
 
